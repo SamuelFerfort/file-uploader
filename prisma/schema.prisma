@@ -16,15 +16,51 @@ datasource db {
 
 
 model User {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   email String @unique
   password String
+  username String
+  Folder Folder[]
 }
 
 
 model Session {
   id        String   @id
   sid       String   @unique
-  data      String    // MediumText may be needed for MySql
+  data      String    
   expiresAt   DateTime
+}
+
+
+model Folder {
+  id         String      @id @default(uuid())
+  name       String
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  parentId   String?
+  parent     Folder?     @relation("Subfolders", fields: [parentId], references: [id])
+  subfolders Folder[]    @relation("Subfolders")
+  files      File[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  ShareLink  ShareLink[]
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  url      String
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShareLink {
+  id        String   @id @default(uuid())
+  folderId  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  folder    Folder   @relation(fields: [folderId], references: [id])
 }

@@ -3,13 +3,15 @@ const express = require("express");
 const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
-
-const PORT = process.env.PORT || 3000;
+const authRouter = require("./routes/auth")
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
+
 app.use(
   expressSession({
     cookie: {
@@ -26,9 +28,30 @@ app.use(
   })
 );
 require("./config/passport")(app);
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+  });
 
-app.get("/", (req, res) => res.render("index"));
+
+app.use("/auth", authRouter);
+
+
+
+
+
+
+app.use(function (err, req, res, next) {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
+  
+    res.status(err.status || 500);
+    res.render("error");
+  });
+
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`App listening on port http://localhost:${PORT}`);
+  console.log(`Server running on port http://localhost:${PORT}`);
 });
