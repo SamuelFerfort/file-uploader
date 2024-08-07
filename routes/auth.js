@@ -2,13 +2,11 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-// instantiate the client
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const bcrypt = require("bcrypt");
 
-// when creating a new message
 
 router.get("/sign-up", (req, res) => {
   res.render("layout", {
@@ -51,7 +49,6 @@ router.post("/log-in", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      // Authentication failed
       console.log(info.message);
       next(info.message);
     }

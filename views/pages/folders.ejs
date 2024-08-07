@@ -1,0 +1,15 @@
+<% if (folders && folders.length > 0) { %>
+<h1>Your folders</h1>
+
+<ul>
+  <% folders.forEach(function (folder) { %>
+  <li><a href="/folder/<%= folder.id %>"><%= folder.name %> </a></li>
+  <% }) %>
+</ul>
+
+<% } else { %>
+
+<h2>You have no folders! Create one to start uploading</h2>
+<% } %>
+
+<button><a href="/folder/create">Create Folder</a></button>

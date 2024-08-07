@@ -5,8 +5,11 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const authRouter = require("./routes/auth");
 const filesRouter = require("./routes/filesRouter");
+const folderRouter = require("./routes/folderRouter");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
+const Folder = require("./models/Folder");
+const { render } = require("ejs");
 
 const app = express();
 app.use(cookieParser());
@@ -39,13 +42,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("layout", { title: "Home", page: "pages/index" });
-});
-
 app.use("/", authRouter);
 
 app.use("/files", filesRouter);
+app.use("/folder", folderRouter);
+
+app.get("/", (req, res) => {
+  if (!req.user)
+    return res.render("layout", { page: "pages/index", title: "Home" });
+
+  res.redirect("/folder");
+});
 
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

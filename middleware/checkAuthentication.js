@@ -1,8 +1,9 @@
 function checkAuthentication(req, res, next) {
   if (req.isAuthenticated()) {
-    next();
+    return next();
+  } else {
+    res.redirect("/");
   }
-  return res.redirect("/");
 }
 
 module.exports = checkAuthentication;

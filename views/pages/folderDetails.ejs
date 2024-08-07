@@ -1,0 +1,15 @@
+
+
+ <% if (files && files.length < 0) { %>
+      
+    <% files.forEach(function (file) { %>
+        <img src="#" alt="<%= file.name %>">
+   <% }) %>
+
+ <% } else { %>
+
+    <h1>No files uploaded yet!</h1>
+
+<% } %>
+
+<a href="/files/upload">Upload files</a>
