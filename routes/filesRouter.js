@@ -15,6 +15,6 @@ router.get("/upload/", controller.fileUploadGet)
 
 router.post("/upload", upload.single("file"), controller.uploadFile);
 
-router.post("files/delete/:id")
+router.post("/delete/:id", controller.deleteFile)
 
 module.exports = router;

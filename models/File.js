@@ -43,7 +43,15 @@ class File {
   }
 
   static async delete(id) {
-    return prisma.file.delete({ where: { id } });
+    const file = await this.findById(id);
+    if (!file) throw new Error("File not found");
+
+    const publicId = file.url.split("/").slice(-1)[0].split(".")[0];
+    await cloudinary.uploader.destroy(publicId);
+
+    await prisma.file.delete({ where: { id } });
+
+    return file.folderId
   }
 
   static async findByFolderId(folderId) {
