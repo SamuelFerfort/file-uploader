@@ -17,8 +17,9 @@ router.get("/sign-up", (req, res) => {
   });
 });
 
-router.post("/sign-up", async (req, res) => {
+router.post("/sign-up", async (req, res, next) => {
   const { username, email, password } = req.body;
+  console.log(username, email, password)
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
     const user = await prisma.user.create({
@@ -28,7 +29,7 @@ router.post("/sign-up", async (req, res) => {
         password: hashedPassword,
       },
     });
-    res.redirect("login");
+    res.redirect("/login");
   } catch (err) {
     next(err);
   }
@@ -41,8 +42,13 @@ router.get("/log-in", (req, res) => {
   });
 });
 
-router.post("/log-in", (req, res) => {});
 
-router.get("/log-out", (req, res) => {});
+router.get("/log-out", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+  
+      res.redirect("/");
+    });
+  });
 
 module.exports = router;
