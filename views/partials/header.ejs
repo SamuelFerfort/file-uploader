@@ -1,15 +1,20 @@
-<header>
-  <% if(locals.currentUser) { %>
-  <nav>
-    <li>Welcome, <%= currentUser.username %></li>
-    <li><a href="/log-out">Log out</a></li>
-  </nav>
-
-  <% } else { %>
-
-  <nav>
-    <li><a href="/log-in">Log in</a></li>
-    <li><a href="/sign-up">Sign-up</a></li>
-  </nav>
-  <% }%>
+<header class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+    
+      <h1 class="ml-3"><a href="/">File Uploader</a></h1>
+    </div>
+    <% if(locals.currentUser) { %>
+    <div class="d-flex align-items-center">
+      <a href="/files/upload" class="btn btn-primary mr-3">Upload</a>
+      <span class="mr-3">Welcome, <%= currentUser.username %></span>
+      <a href="/log-out" class="btn btn-outline-danger">Log out</a>
+    </div>
+    <% } else { %>
+    <div class="d-flex align-items-center">
+      <a href="/log-in" class="btn btn-outline-primary mr-3">Log in</a>
+      <a href="/sign-up" class="btn btn-primary">Sign-up</a>
+    </div>
+    <% } %>
+  </div>
 </header>

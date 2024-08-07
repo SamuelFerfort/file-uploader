@@ -5,27 +5,16 @@ const checkAuthentication = require("../middleware/checkAuthentication")
 const controller = require("../controllers/fileController")
 
 const router = express.Router();
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/data/uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
 
 router.use(checkAuthentication)
 
-router.get("/upload", controller.fileUploadGet)
+router.get("/upload/", controller.fileUploadGet)
 
-router.post("/upload", upload.single("uploaded_file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
+router.post("/upload", upload.single("file"), controller.uploadFile);
 
-  res.send("File uploaded successfully: " + req.file.path);
-});
+router.post("files/delete/:id")
 
 module.exports = router;

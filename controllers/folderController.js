@@ -1,4 +1,5 @@
 const Folder = require("../models/Folder");
+const File = require("../models/File");
 
 const folderCreateGet = (req, res) => {
   res.render("layout", { page: "pages/folderForm", title: "Create Folder" });
@@ -33,9 +34,12 @@ const folderIndexGet = async (req, res, next) => {
 
 const folderDetailsGet = async (req, res, next) => {
   try {
-    const folder = await Folder.findById(req.params.id);
-    
-    res.render("layout", { page: "pages/folderDetails", title: folder.name });
+    const [folder, files] = await Promise.all([
+      Folder.findById(req.params.id),
+      File.findByFolderId(req.params.id),
+    ]);
+
+    res.render("layout", { page: "pages/folderDetails", title: folder.name , folder, files });
   } catch (err) {
     console.error("Error finding folder by id", err);
     next(err);
@@ -46,5 +50,5 @@ module.exports = {
   folderCreateGet,
   folderCreatePost,
   folderIndexGet,
-  folderDetailsGet
+  folderDetailsGet,
 };
