@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 
 const checkAuthentication = require("../middleware/checkAuthentication")
-
+const controller = require("../controllers/fileController")
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -17,6 +17,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.use(checkAuthentication)
+
+router.get("/upload", controller.fileUploadGet)
 
 router.post("/upload", upload.single("uploaded_file"), (req, res) => {
   if (!req.file) {

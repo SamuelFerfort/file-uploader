@@ -23,10 +23,21 @@ const folderIndexGet = async (req, res, next) => {
     res.render("layout", {
       title: "Your Folders",
       page: "pages/folders",
-      folders
+      folders,
     });
   } catch (err) {
     console.error("Error Fetching Folders", err);
+    next(err);
+  }
+};
+
+const folderDetailsGet = async (req, res, next) => {
+  try {
+    const folder = await Folder.findById(req.params.id);
+    
+    res.render("layout", { page: "pages/folderDetails", title: folder.name });
+  } catch (err) {
+    console.error("Error finding folder by id", err);
     next(err);
   }
 };
@@ -35,4 +46,5 @@ module.exports = {
   folderCreateGet,
   folderCreatePost,
   folderIndexGet,
+  folderDetailsGet
 };
