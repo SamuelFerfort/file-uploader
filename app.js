@@ -4,8 +4,8 @@ const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const authRouter = require("./routes/auth");
+const filesRouter = require("./routes/filesRouter");
 const logger = require("morgan");
-const passport = require("passport");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -42,28 +42,10 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.render("layout", { title: "Home", page: "pages/index" });
 });
-app.use("/", authRouter);
-app.post("/log-in", (req, res, next) => {
-  console.log("Login attempt:", req.body);
-  passport.authenticate("local", (err, user, info) => {
-    console.log("Passport authenticate result:", { err, user, info });
 
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      // Authentication failed
-      console.log(info.message);
-      next(info.message);
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      return res.redirect("/");
-    });
-  })(req, res, next);
-});
+app.use("/", authRouter);
+
+app.use("/files", filesRouter);
 
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

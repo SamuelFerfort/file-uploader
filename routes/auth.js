@@ -1,5 +1,5 @@
 const express = require("express");
-
+const passport = require("passport");
 const router = express.Router();
 
 // instantiate the client
@@ -19,7 +19,7 @@ router.get("/sign-up", (req, res) => {
 
 router.post("/sign-up", async (req, res, next) => {
   const { username, email, password } = req.body;
-  console.log(username, email, password)
+  console.log(username, email, password);
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
     const user = await prisma.user.create({
@@ -42,13 +42,34 @@ router.get("/log-in", (req, res) => {
   });
 });
 
+router.post("/log-in", (req, res, next) => {
+  console.log("Login attempt:", req.body);
+  passport.authenticate("local", (err, user, info) => {
+    console.log("Passport authenticate result:", { err, user, info });
+
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      // Authentication failed
+      console.log(info.message);
+      next(info.message);
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
 
 router.get("/log-out", (req, res, next) => {
-    req.logout((err) => {
-      if (err) return next(err);
-  
-      res.redirect("/");
-    });
+  req.logout((err) => {
+    if (err) return next(err);
+
+    res.redirect("/");
   });
+});
 
 module.exports = router;
