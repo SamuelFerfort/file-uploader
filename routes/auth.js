@@ -1,44 +1,18 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
-
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-
-const bcrypt = require("bcrypt");
+const controller = require("../controllers/authController")
 
 
-router.get("/sign-up", (req, res) => {
-  res.render("layout", {
-    page: "pages/signup",
-    title: "Sign Up",
-  });
-});
 
-router.post("/sign-up", async (req, res, next) => {
-  const { username, email, password } = req.body;
-  console.log(username, email, password);
-  const hashedPassword = await bcrypt.hash(password, 10);
-  try {
-    const user = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword,
-      },
-    });
-    res.redirect("/login");
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/sign-up", controller.sign_up_form_get);
 
-router.get("/log-in", (req, res) => {
-  res.render("layout", {
-    page: "pages/login",
-    title: "Log In",
-  });
-});
+router.post("/sign-up", controller.sign_up_form_post)
+
+router.get("/log-in", controller.login_get);
+
+
+
 
 router.post("/log-in", (req, res, next) => {
   console.log("Login attempt:", req.body);

@@ -1,20 +1,36 @@
-<header class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center">
-    <div class="d-flex align-items-center">
-    
-      <h1 class="ml-3"><a href="/">File Uploader</a></h1>
-    </div>
-    <% if(locals.currentUser) { %>
-    <div class="d-flex align-items-center">
-      <a href="/files/upload" class="btn btn-primary mr-3">Upload</a>
-      <span class="mr-3">Welcome, <%= currentUser.username %></span>
-      <a href="/log-out" class="btn btn-outline-danger">Log out</a>
-    </div>
-    <% } else { %>
-    <div class="d-flex align-items-center">
-      <a href="/log-in" class="btn btn-outline-primary mr-3">Log in</a>
-      <a href="/sign-up" class="btn btn-primary">Sign-up</a>
-    </div>
-    <% } %>
+<!-- views/partials/header.ejs -->
+<header class="bg-light py-3 mb-4 shadow-sm">
+  <div class="container d-flex justify-content-between align-items-center">
+    <h1 class="h3 mb-0"><a href="/" class="text-dark">File Uploader</a></h1>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <% if (locals.currentUser) { %>
+            <li class="nav-item">
+              <a class=" btn btn-primary mr-2" href="/files/upload">Upload</a>
+            </li>
+            <li class="nav-item">
+              <a class=" btn btn-primary mr-2" href="/folder">Folders</a>
+            </li>
+            <li class="nav-item">
+              <span class="nav-link">Welcome, <%= currentUser.username %></span>
+            </li>
+            <li class="nav-item">
+              <a class=" btn btn-danger text-white" href="/log-out">Log out</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class=" btn btn-outline-primary mr-2" href="/log-in">Log in</a>
+            </li>
+            <li class="nav-item">
+              <a class=" btn btn-outline-secondary" href="/sign-up">Sign-up</a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
   </div>
 </header>
