@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const cloudinary = require("../config/cloudinary");
 const streamifier = require("streamifier");
 const prisma = new PrismaClient();
-
+const Folder = require("./Folder");
 class File {
   static async create(data, fileBuffer) {
     try {
@@ -14,9 +14,10 @@ class File {
           url: uploadResult.secure_url,
           size: uploadResult.bytes,
           folderId: data.folderId,
+          public_id: uploadResult.public_id,
         },
       });
-      console.log("Upload result file:", file);
+      const folder = await Folder.findByIdAndUpdate(file.folderId, file.url);
 
       return file;
     } catch (err) {
@@ -45,13 +46,18 @@ class File {
   static async delete(id) {
     const file = await this.findById(id);
     if (!file) throw new Error("File not found");
+    await Folder.findByIdAndUpdate(file.folderId, "/assets/folder.jpg");
 
-    const publicId = file.url.split("/").slice(-1)[0].split(".")[0];
-    await cloudinary.uploader.destroy(publicId);
+    try {
+      await cloudinary.uploader.destroy(file.public_id);
+    } catch (error) {
+      console.error("Error deleting file from Cloudinary:", error);
+      throw new Error("Error deleting file from Cloudinary");
+    }
 
     await prisma.file.delete({ where: { id } });
 
-    return file.folderId
+    return file.folderId;
   }
 
   static async findByFolderId(folderId) {

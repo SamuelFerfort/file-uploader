@@ -44,6 +44,7 @@ model Folder {
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   ShareLink  ShareLink[]
+  previewImageUrl String @default("/assets/folder.jpg")
 }
 
 model File {
@@ -55,6 +56,7 @@ model File {
   size      Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  public_id String  @default("NoValue")
 }
 
 model ShareLink {

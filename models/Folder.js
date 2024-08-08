@@ -17,6 +17,12 @@ class Folder {
     return prisma.folder.findUnique({ where: { id } });
   }
 
+  static async findByIdAndUpdate(id, previewImageUrl) {
+    return prisma.folder.update({
+      where: { id },
+      data: { previewImageUrl },
+    });
+  }
   static async delete(id) {
     return prisma.folder.delete({ where: { id } });
   }
