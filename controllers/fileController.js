@@ -18,7 +18,7 @@ const uploadFile = async (req, res) => {
   }
 
   try {
-    const file = await File.create(
+     await File.create(
       {
         name: req.body.name || req.file.originalname,
         folderId: req.body.folderId,
@@ -29,7 +29,7 @@ const uploadFile = async (req, res) => {
     res.redirect(`/folder/${req.body.folderId}`);
   } catch (error) {
     console.error("Error in uploadFile:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).send({ error: "Internal server error" });
   }
 };
 

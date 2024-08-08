@@ -8,8 +8,6 @@ const filesRouter = require("./routes/filesRouter");
 const folderRouter = require("./routes/folderRouter");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const Folder = require("./models/Folder");
-const { render } = require("ejs");
 
 const app = express();
 app.use(cookieParser());
