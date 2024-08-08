@@ -26,7 +26,6 @@ const uploadFile = async (req, res) => {
       req.file.buffer
     );
 
-    console.log(file);
     res.redirect(`/folder/${req.body.folderId}`);
   } catch (error) {
     console.error("Error in uploadFile:", error);

@@ -7,7 +7,6 @@ class File {
   static async create(data, fileBuffer) {
     try {
       const uploadResult = await this.uploadToCloudinary(fileBuffer);
-      console.log("Upload result:", uploadResult);
       const file = await prisma.file.create({
         data: {
           name: data.name,
@@ -17,7 +16,7 @@ class File {
           public_id: uploadResult.public_id,
         },
       });
-      const folder = await Folder.findByIdAndUpdate(file.folderId, file.url);
+      await Folder.findByIdAndUpdate(file.folderId, file.url);
 
       return file;
     } catch (err) {

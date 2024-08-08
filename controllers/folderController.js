@@ -9,7 +9,7 @@ const folderCreatePost = async (req, res, next) => {
   const folderData = { name: req.body.name, userId: req.user.id };
 
   try {
-    const folder = await Folder.create(folderData);
+    await Folder.create(folderData);
 
     res.redirect("/");
   } catch (err) {
