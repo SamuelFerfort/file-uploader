@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
+const passport = require("passport");
 
 const bcrypt = require("bcrypt");
 
@@ -41,7 +42,7 @@ exports.sign_up_form_post = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return  res.render("layout", {
+      return res.render("layout", {
         page: "pages/signup",
         title: "Sign Up",
         errors: errors.array(),
@@ -73,3 +74,40 @@ exports.login_get = (req, res) => {
     title: "Log In",
   });
 };
+
+exports.login_post = [
+  body("email", "Email must not be empty").isEmail(),
+  body("password", "Password must not be empty").notEmpty(),
+
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render("layout", {
+        page: "pages/login",
+        title: "Log In",
+        errors: errors.array(),
+        email: req.body.email,
+      });
+    }
+
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.render("layout", {
+          page: "pages/login",
+          title: "Log In",
+          errors: [{ msg: info.message }],
+          email: req.body.email,
+        });
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/");
+      });
+    })(req, res, next);
+  },
+];

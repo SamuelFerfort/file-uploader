@@ -17,6 +17,16 @@
             No account? <a href="/sign-up">Sign up</a>
           </p>
       </div>
+
+      <% if (locals.errors && errors.length > 0) { %>
+        <div class="alert alert-danger mt-3">
+          <ul class="mb-0">
+            <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } %>
     </div>
   </div>
   
