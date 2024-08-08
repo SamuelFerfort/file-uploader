@@ -14,6 +14,7 @@ router.get("/create", controller.folderCreateGet);
 
 router.post("/create", controller.folderCreatePost);
 
+router.post("/delete/:id", controller.folderDelete)
 
 router.get("/:id", controller.folderDetailsGet);
 module.exports = router;

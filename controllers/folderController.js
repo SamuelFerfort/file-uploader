@@ -39,9 +39,24 @@ const folderDetailsGet = async (req, res, next) => {
       File.findByFolderId(req.params.id),
     ]);
 
-    res.render("layout", { page: "pages/folderDetails", title: folder.name , folder, files });
+    res.render("layout", {
+      page: "pages/folderDetails",
+      title: folder.name,
+      folder,
+      files,
+    });
   } catch (err) {
     console.error("Error finding folder by id", err);
+    next(err);
+  }
+};
+
+const folderDelete = async (req, res, next) => {
+  try {
+    await Folder.delete(req.params.id);
+    res.redirect("/folder");
+  } catch (err) {
+    console.error("Error deleting folder", err);
     next(err);
   }
 };
@@ -51,4 +66,5 @@ module.exports = {
   folderCreatePost,
   folderIndexGet,
   folderDetailsGet,
+  folderDelete,
 };

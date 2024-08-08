@@ -13,9 +13,12 @@
        
         <div class="card-body">
           <h5 class="card-title"><%= folder.name %></h5>
-          <a href="/folder/<%= folder.id %>" class="btn btn-primary btn-block"
-            >View Folder</a
+          <a href="/folder/<%= folder.id %>" class="btn btn-primary "
+            >View</a
           >
+          <form action="/folder/delete/<%= folder.id %>" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger ">Delete</button>
+          </form>
         </div>
       </div>
     </div>

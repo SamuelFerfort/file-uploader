@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-
+const cloudinary = require("../config/cloudinary");
 const prisma = new PrismaClient();
 
 class Folder {
@@ -24,6 +24,15 @@ class Folder {
     });
   }
   static async delete(id) {
+    const files = await prisma.file.findMany({ where: { folderId: id } });
+
+    if (files.length > 0) {
+      const deleteFilePromises = files.map(file => cloudinary.uploader.destroy(file.public_id));
+
+      await Promise.all(deleteFilePromises)
+    }
+
+    await prisma.file.deleteMany({ where: { folderId: id } });
     return prisma.folder.delete({ where: { id } });
   }
 
