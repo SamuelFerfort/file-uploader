@@ -41,31 +41,31 @@ Before setting up the project, ensure you have the following installed:
 
 1. Clone the repository:
 
-   git clone https://github.com/SamuelFerfort/file-uploader.git
-   cd file-uploader
+    git clone https://github.com/SamuelFerfort/file-uploader.git
+    cd file-uploader
 
 2. Install dependencies:
 
-   npm install
+    npm install
 
 3. Set up environment variables:
 
    Create a .env file in the root of your project and add the following variables:
 
-   DATABASE_URL="postgresql://username:password@localhost:5432/databasename"
-   SESSION_SECRET="your_session_secret"
-   CLOUDINARY_CLOUD_NAME="your_cloud_name"
-   CLOUDINARY_API_KEY="your_api_key"
-   CLOUDINARY_API_SECRET="your_api_secret"
+    DATABASE_URL="postgresql://username:password@localhost:5432/databasename"
+    SESSION_SECRET="your_session_secret"
+    CLOUDINARY_CLOUD_NAME="your_cloud_name"
+    CLOUDINARY_API_KEY="your_api_key"
+    CLOUDINARY_API_SECRET="your_api_secret"
 
 4. Initialize the database:
 
    Run the Prisma migrations to set up your PostgreSQL database:
 
-   npx prisma migrate dev
+    npx prisma migrate dev
 
 5. Run the application:
 
-   npm start
+    npm start
 
    The application will be available at http://localhost:3000.
