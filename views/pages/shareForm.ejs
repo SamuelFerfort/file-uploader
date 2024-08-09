@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2>Share Folder</h2>
+        <form method="post">
+          <div class="form-group">
+            <label for="days">Days</label>
+            <input type="number" class="form-control" id="days" name="days" min="1" max="10" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Get link</button>
+        </form>
+  
+        <% if (locals.errors && locals.errors.length > 0) { %>
+          <div class="alert alert-danger mt-3">
+            <ul class="mb-0">
+              <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+              <% }); %>
+            </ul>
+          </div>
+        <% } %>
+  
+        <% if (locals.shareLinkUrl) { %>
+          <div class="mt-4">
+            <div class="input-group">
+              <input type="text" class="form-control" id="sharedLinkInput" value="<%= shareLinkUrl %>" readonly>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()">
+                  <i class="bi bi-clipboard"></i> Copy
+                </button>
+              </div>
+            </div>
+            <small id="copyMessage" class="form-text text-success mt-2" style="display: none;">Link copied to clipboard!</small>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+  function copyToClipboard() {
+    const copyText = document.getElementById("sharedLinkInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    
+    const copyMessage = document.getElementById("copyMessage");
+    copyMessage.style.display = "block";
+    setTimeout(function() {
+      copyMessage.style.display = "none";
+    }, 2000);
+  }
+  </script>

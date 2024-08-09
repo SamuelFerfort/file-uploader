@@ -6,8 +6,12 @@ const { PrismaClient } = require("@prisma/client");
 const authRouter = require("./routes/auth");
 const filesRouter = require("./routes/filesRouter");
 const folderRouter = require("./routes/folderRouter");
+const shareRouter = require("./routes/shareRouter")
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
+const downloadFile = require("./controllers/downloadController");
+
+
 
 const app = express();
 app.use(cookieParser());
@@ -44,6 +48,11 @@ app.use("/", authRouter);
 
 app.use("/files", filesRouter);
 app.use("/folder", folderRouter);
+app.use("/share", shareRouter)
+app.get('/download/:fileId', downloadFile);
+
+
+
 
 app.get("/", (req, res) => {
   if (!req.user)
