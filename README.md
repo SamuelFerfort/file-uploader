@@ -41,7 +41,7 @@ Before setting up the project, ensure you have the following installed:
 
 1. Clone the repository:
 
-    git clone https://github.com/SamuelFerfort/file-uploader.git
+```git clone https://github.com/SamuelFerfort/file-uploader.git
     cd file-uploader
 
 2. Install dependencies:
