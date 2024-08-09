@@ -40,18 +40,18 @@ Before setting up the project, ensure you have the following installed:
 ### Installation
 
 1. Clone the repository:
-```
+```bash
     git clone https://github.com/SamuelFerfort/file-uploader.git
     cd file-uploader
 ```
 2. Install dependencies:
-```
+```bash
     npm install
 ```
 3. Set up environment variables:
 
    Create a .env file in the root of your project and add the following variables:
-```
+```bash
     DATABASE_URL="postgresql://username:password@localhost:5432/databasename"
     SESSION_SECRET="your_session_secret"
     CLOUDINARY_CLOUD_NAME="your_cloud_name"
@@ -61,11 +61,11 @@ Before setting up the project, ensure you have the following installed:
 4. Initialize the database:
 
    Run the Prisma migrations to set up your PostgreSQL database:
-```
+```bash
     npx prisma migrate dev
 ```
 5. Run the application:
-```
+```bash
     npm start
 ```
    The application will be available at http://localhost:3000.
