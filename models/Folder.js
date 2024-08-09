@@ -33,6 +33,7 @@ class Folder {
     }
 
     await prisma.file.deleteMany({ where: { folderId: id } });
+    await prisma.shareLink.deleteMany({where: {folderId: id}})
     return prisma.folder.delete({ where: { id } });
   }
 

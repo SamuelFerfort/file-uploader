@@ -45,7 +45,10 @@ exports.shareFolderPost = [
         title: "Share Folder",
         shareLinkUrl,
       });
-    } catch (err) {}
+    } catch (err) {
+        console.error("Error creating the share link:", err)
+        next(err)
+    }
   },
 ];
 

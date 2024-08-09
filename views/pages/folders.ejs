@@ -3,36 +3,38 @@
 
   <div class="row">
     <% folders.forEach(function (folder) { %>
-    <div class="col-md-4 ">
+    <div class="col-md-4">
       <div class="card mb-4">
         <img
           src="<%= folder.previewImageUrl %>"
           class="card-img-top default-image"
           alt="<%= folder.name %>"
         />
-       
+
         <div class="card-body">
           <h5 class="card-title"><%= folder.name %></h5>
-          <a href="/folder/<%= folder.id %>" class="btn btn-primary "
-            >View</a
+          <a href="/folder/<%= folder.id %>" class="btn btn-primary">View</a>
+          <form
+            action="/folder/delete/<%= folder.id %>"
+            method="post"
+            style="display: inline"
           >
-          <form action="/folder/delete/<%= folder.id %>" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-danger  ">Delete</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
           </form>
-          <a href="/share/<%= folder.id %>" class="btn btn-primary ">Share</a>
+          <a href="/share/<%= folder.id %>" class="btn btn-success">Share</a>
         </div>
       </div>
     </div>
     <% }) %>
   </div>
 
-  <a href="/folder/create" class="btn btn-success mb-4">Create Folder</a>
+  <a href="/folder/create" class="btn btn-primary mb-4">Create Folder</a>
 
   <% } else { %>
-    <div class="alert alert-info" role="alert">
-      <h4 class="alert-heading">You have no folders!</h4>
-      <p>Create one to start uploading</p>
-    </div>
-  <a href="/folder/create" class="btn btn-success">Create Folder</a>
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">You have no folders!</h4>
+    <p>Create one to start uploading</p>
+  </div>
+  <a href="/folder/create" class="btn btn-primary">Create Folder</a>
   <% } %>
 </div>
